@@ -18,10 +18,10 @@ SECTIONS
     .sig : { SHORT(0xaa55) }
 
     . = 0x7e00;
-    .bridge :
+    .boot_ext :
     {
-        *bridge.o(.text)
-        *bridge.o(.data)
-        *bridge.o(.rodata)
+        *boot_ext.o(.text)
+        *boot_ext.o(.data)
+        *boot_ext.o(.rodata)
     }
 }

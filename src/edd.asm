@@ -28,8 +28,7 @@ edd: ; enhanced disk drive with lba
     xor ax, ax ; reset disk drives
     int 0x13
 
-    dec cx
-    jnz .lba_read
+    loop .lba_read
 .error:
     jmp no_edd
 .dap: ; disk address packet
@@ -58,7 +57,7 @@ no_edd: ; use chs
     jnz .drive_parameters
 .error:
     mov si, geometry_err_msg
-    call display
+    call display_16
     jmp read_fail
 
 lba_to_chs: ; convert lba to chs
@@ -109,12 +108,12 @@ chs_read: ; read sectors from chs
     jnz .retry
 .error:
     mov si, chs_read_err_msg
-    call display
+    call display_16
     jmp read_fail
 
 read_success:
     mov si, read_success_msg
-    call display
+    call display_16
     
     mov ax, 1
     ret
@@ -122,6 +121,6 @@ read_fail:
     mov ax, 0
     ret
 
-chs_read_err_msg db STAGE_NAME, " ERR: READ", 0x0d, 0x0a, 0
-geometry_err_msg db STAGE_NAME, " ERR: GEOM", 0x0d, 0x0a, 0
-read_success_msg db STAGE_NAME, " LOADED", 0x0d, 0x0a, 0
+chs_read_err_msg db "BOOT_EXT ERR: READ", 0x0d, 0x0a, 0
+geometry_err_msg db "BOOT_EXT ERR: GEOM", 0x0d, 0x0a, 0
+read_success_msg db "BOOT_EXT LOADED", 0x0d, 0x0a, 0

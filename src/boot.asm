@@ -17,21 +17,16 @@ _start:
     mov [boot_drive], dl ; load the drive number
 
     mov si, boot_msg
-    call display
+    call display_16
 
-    call read_sectors ; load bridge onto ram
+    call read_sectors ; load boot_ext onto ram
 
     cmp ax, 0
     je halt_cpu ; check edd failed
 
-    jmp BRIDGE_ORIGIN ; move to stage 2 bootloader
+    jmp READ_ORIGIN ; move to extended bootloader
 
-%define STAGE_NAME "BRIDGE"
-%define READ_ORIGIN BRIDGE_ORIGIN
-%define READ_SECTOR_COUNT BRIDGE_SECTOR_COUNT
-%define READ_LBA BRIDGE_LBA
-%include ASM_EDD ; load stage 2 bootloader onto ram
-
+%include ASM_EDD ; load bootloaders onto ram
 %include ASM_UTILS
 
 boot_drive db 0

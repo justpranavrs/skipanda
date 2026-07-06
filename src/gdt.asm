@@ -1,4 +1,5 @@
 ; Global Descriptor Table (GDT)
+; Requires (%include ASM_UTILS)
 gdt:
     dq 0 ; null descriptor
 code_segment_32:
@@ -33,13 +34,13 @@ gdt_end:
 
 gdt_descriptor:
     dw gdt_end - gdt - 1
-    dq gdt ; 64 bit gdt address
+    dd gdt ; 32 bit gdt address
 
 setup_gdt:
     lgdt [gdt_descriptor]
 
     mov si, gdt_success_msg
-    call display
+    call display_16
 
     ret
 

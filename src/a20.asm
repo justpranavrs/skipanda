@@ -88,14 +88,14 @@ a20_fast: ; fast a20 gate
 
 a20_success: ; a20 is enabled
     mov si, a20_success_msg
-    call display
+    call display_16
 
     mov ax, 1
     ret
 
 a20_fail: ; could not enable a20
     mov si, a20_fail_err_msg
-    call display
+    call display_16
 
     mov ax, 0
     ret
