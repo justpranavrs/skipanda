@@ -1,5 +1,10 @@
-; System Memory Map
-; Requires (%include ASM_UTILS)
+; -----------------------------------------------------------------------------
+; @file     mmap.asm
+; @requires utils.asm
+; @title    System Memory Map
+; @desc    Stores the Memory Map using BIOS 0x15.
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
 store_memory_map:
     mov di, MMAP_ADDR ; above BDA
     

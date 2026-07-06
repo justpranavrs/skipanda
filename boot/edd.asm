@@ -1,6 +1,10 @@
-; Enhanced Disk Drive
-; Requires (%include ASM_UTILS)
-; Requires (STAGE_NAME, READ_ORIGIN, READ_SECTOR_COUNT, READ_LBA)
+; -----------------------------------------------------------------------------
+; @file     edd.asm
+; @requires utils.asm
+; @title    Read Sectors
+; @desc    Loads the Extended and the Stage C Bootloader.
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
 extern boot_drive
 read_sectors:
     mov ah, 0x41 ; check extended support for lba

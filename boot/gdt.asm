@@ -1,5 +1,10 @@
-; Global Descriptor Table (GDT)
-; Requires (%include ASM_UTILS)
+; -----------------------------------------------------------------------------
+; @file     gdt.asm
+; @requires utils.asm
+; @title    Global Descriptor Table (GDT)
+; @desc    Sets up the GDT for 32-bit Protected and 64-bit Long Modes.
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
 gdt:
     dq 0 ; null descriptor
 code_segment_32:

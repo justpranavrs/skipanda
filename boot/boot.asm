@@ -1,5 +1,9 @@
-; Master Boot Record (MBR)
-%include "src/config.asm"
+; -----------------------------------------------------------------------------
+; @file     boot.asm
+; @title    Master Boot Record (MBR)
+; @desc    Initialises the CPU and loads the extended bootloader from disk.
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
 global _start
 global boot_drive
 
@@ -26,8 +30,8 @@ _start:
 
     jmp READ_ORIGIN ; move to extended bootloader
 
-%include ASM_EDD ; load bootloaders onto ram
-%include ASM_UTILS
+%include "boot/edd.asm" ; load bootloaders onto ram
+%include "boot/utils.asm"
 
 boot_drive db 0
 boot_msg db "SKIPANDA BOOTING...", 0x0d, 0x0a, 0

@@ -1,5 +1,11 @@
-; Enables A20 Address Line
-; Requires (%include ASM_UTILS)
+; -----------------------------------------------------------------------------
+; @file     a20.asm
+; @requires utils.asm
+; @title    A20 Address Line
+; @desc    Disables the 1MB Barrier via fallback strategy using BIOS,
+;           8042 Keyboard Controller and Fast A20.
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
 enable_a20:
     call check_a20
     cmp ax, 1

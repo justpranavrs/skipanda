@@ -1,12 +1,17 @@
+BOOT_DIR = boot
+CONFIG_SRC = $(BOOT_DIR)/config.inc
+
+# Compiler and Emulator
 ASM = nasm
+ASMFLAGS = -f elf32 -p $(CONFIG_SRC)
 BOOT_EMU = qemu-system-i386
 
 # Directory Configuration
 BUILD_DIR = build
 
 # Source Files
-BOOT_SRC = src/boot.asm
-BOOT_EXT_SRC = src/boot_ext.asm
+BOOT_SRC = $(BOOT_DIR)/boot.asm
+BOOT_EXT_SRC = $(BOOT_DIR)/boot_ext.asm
 LINKER_SRC = linker.ld
 
 # Generated Artifacts
@@ -26,10 +31,10 @@ $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 
 $(BOOT_OBJ): $(BOOT_SRC) | $(BUILD_DIR)
-	$(ASM) -f elf32 $(BOOT_SRC) -o $(BOOT_OBJ) -l $(BOOT_LIST)
+	$(ASM) $(ASMFLAGS) $(BOOT_SRC) -o $(BOOT_OBJ) -l $(BOOT_LIST)
 
 $(BOOT_EXT_OBJ): $(BOOT_EXT_SRC) | $(BUILD_DIR)
-	$(ASM) -f elf32 $(BOOT_EXT_SRC) -o $(BOOT_EXT_OBJ) -l $(BOOT_EXT_LIST)
+	$(ASM) $(ASMFLAGS) $(BOOT_EXT_SRC) -o $(BOOT_EXT_OBJ) -l $(BOOT_EXT_LIST)
 
 $(IMG_SRC): $(BOOT_OBJ) $(BOOT_EXT_OBJ)
 	ld -m elf_i386 -T $(LINKER_SRC) -o $(IMG_SRC) $(BOOT_OBJ) $(BOOT_EXT_OBJ)

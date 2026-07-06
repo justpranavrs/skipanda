@@ -1,3 +1,9 @@
+; -----------------------------------------------------------------------------
+; @file     config.inc
+; @title    Boot Configuration
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
+
 ; Master Boot Record (MBR)
 BOOT_ORIGIN equ 0x7c00
 READ_ORIGIN equ 0x7e00
@@ -15,12 +21,6 @@ LIST_ENTRY_SIZE equ 24 ; size of map entry in bytes
 ; 32-Bit Protected Mode
 VIDEO_MEMORY equ 0xb8000
 DISPLAY_ROW_SIZE equ 160 ; size of a row in bytes
+DISPLAY_ROWS equ 80
+DISPLAY_COLS equ 25
 DISPLAY_ATTR equ 0x0f ; white on black
-
-; Files
-%define ASM_SRC "src/"
-%strcat ASM_A20    ASM_SRC, "a20.asm"
-%strcat ASM_EDD    ASM_SRC, "edd.asm"
-%strcat ASM_GDT    ASM_SRC, "gdt.asm"
-%strcat ASM_MMAP   ASM_SRC, "mmap.asm"
-%strcat ASM_UTILS  ASM_SRC, "utils.asm"

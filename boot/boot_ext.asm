@@ -1,6 +1,10 @@
-; Extended Bootloader (Stage 2 Bootloader)
-%include "src/config.asm"
-
+; -----------------------------------------------------------------------------
+; @file     boot_ext.asm
+; @title    Extended Bootloader (Stage 2 Bootloader)
+; @desc    Enables A20 Line, Loads GDT, Stores the Memory Map and switches
+;           to 32-bit Protected Mode.
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
 bits 16 ; 16-bit real mode
 
 boot_ext_start:
@@ -21,9 +25,9 @@ boot_ext_start:
 
     jmp CODE_SEG_32:protected_mode ; far jump to protected_mode
 
-%include ASM_A20
-%include ASM_GDT
-%include ASM_MMAP
+%include "boot/a20.asm"
+%include "boot/gdt.asm"
+%include "boot/mmap.asm"
 
 global cursor_offset
 bits 32 ; 32 bit protected mode
@@ -37,16 +41,15 @@ protected_mode:
     mov esp, ESP_ADDR ; extended stack pointer for 32-bit
 
     call clear_display_32
-    
+
     mov ebx, pm_msg
     call display_32
 
     cld ; clear direction flag
-    
-run:
-    jmp $
 
-%include ASM_UTILS
+    
+
+%include "boot/utils.asm"
 
 pm_msg db "SWITCHED TO 32-BIT PROTECTED MODE.. LOADING STAGE_C BOOTLOADER", 0
 

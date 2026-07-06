@@ -1,4 +1,8 @@
-; Common Utilities
+; -----------------------------------------------------------------------------
+; @file     utils.asm
+; @title    Common Utilities
+; @author   Pranav R S
+; -----------------------------------------------------------------------------
 display_16: ; display on the screen
     mov ah, 0x0e ; write character in tty mode
 .print:
