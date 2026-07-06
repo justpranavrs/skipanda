@@ -1,7 +1,7 @@
 ; -----------------------------------------------------------------------------
 ; @file     boot.asm
 ; @title    Master Boot Record (MBR)
-; @desc    Initialises the CPU and loads the extended bootloader from disk.
+; @desc     Initialises the CPU and loads the extended bootloader from disk.
 ; @author   Pranav R S
 ; -----------------------------------------------------------------------------
 global _start

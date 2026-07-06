@@ -2,7 +2,7 @@
 ; @file     edd.asm
 ; @requires utils.asm
 ; @title    Read Sectors
-; @desc    Loads the Extended and the Stage C Bootloader.
+; @desc     Loads the Extended and the Stage C Bootloader.
 ; @author   Pranav R S
 ; -----------------------------------------------------------------------------
 extern boot_drive

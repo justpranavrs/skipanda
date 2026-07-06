@@ -1,5 +1,6 @@
 /* -----------------------------------------------------------------------------
 * @file     linker.ld
+* @desc     Links the MBR, Extended Bootloader and Stage C Bootloader
 * @author   Pranav R S
 * -----------------------------------------------------------------------------
 */
@@ -28,5 +29,27 @@ SECTIONS
         *boot_ext.o(.text)
         *boot_ext.o(.data)
         *boot_ext.o(.rodata)
+    }
+
+    . = 0x7e00 + 1024;
+    .text :
+    {
+        *(.text)
+    }
+
+    .data :
+    {
+        *(.data)
+    }
+
+    .rodata :
+    {
+        *(.rodata)
+    }
+
+    .bss :
+    {
+        *(.bss)
+        *(COMMON)
     }
 }

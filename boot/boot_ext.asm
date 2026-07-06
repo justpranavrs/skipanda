@@ -1,7 +1,7 @@
 ; -----------------------------------------------------------------------------
 ; @file     boot_ext.asm
 ; @title    Extended Bootloader (Stage 2 Bootloader)
-; @desc    Enables A20 Line, Loads GDT, Stores the Memory Map and switches
+; @desc     Enables A20 Line, Loads GDT, Stores the Memory Map and switches
 ;           to 32-bit Protected Mode.
 ; @author   Pranav R S
 ; -----------------------------------------------------------------------------
@@ -30,6 +30,7 @@ boot_ext_start:
 %include "boot/mmap.asm"
 
 global cursor_offset
+extern boot_main
 bits 32 ; 32 bit protected mode
 protected_mode:
     mov eax, DATA_SEG_32
@@ -39,18 +40,21 @@ protected_mode:
     mov gs, eax
     mov ss, eax
     mov esp, ESP_ADDR ; extended stack pointer for 32-bit
-
-    call clear_display_32
-
-    mov ebx, pm_msg
-    call display_32
-
-    cld ; clear direction flag
-
     
+    cld ; clear direction flag
+    
+    push ESP_ADDR ; extended stack pointer address  
+    push vga_info ; vga display arguments
+    push mmap_info ; memory map arguments
+    
+    call boot_main ; call the stage c bootloader
 
 %include "boot/utils.asm"
 
-pm_msg db "SWITCHED TO 32-BIT PROTECTED MODE.. LOADING STAGE_C BOOTLOADER", 0
-
-times 1024-($-$$) db 0
+vga_info:
+    dd VIDEO_MEMORY
+    dd DISPLAY_ROWS
+    dd DISPLAY_COLS
+mmap_info:
+    dd MMAP_ADDR
+    dd LIST_ENTRY_SIZE

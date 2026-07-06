@@ -2,7 +2,7 @@
 ; @file     gdt.asm
 ; @requires utils.asm
 ; @title    Global Descriptor Table (GDT)
-; @desc    Sets up the GDT for 32-bit Protected and 64-bit Long Modes.
+; @desc     Sets up the GDT for 32-bit Protected and 64-bit Long Modes.
 ; @author   Pranav R S
 ; -----------------------------------------------------------------------------
 gdt:
