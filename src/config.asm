@@ -7,6 +7,8 @@ BRIDGE_SECTOR_COUNT equ 4
 BRIDGE_LBA equ 1
 
 ; Files
-%define ASM_UTILS "src/utils.asm"
-%define ASM_EDD "src/edd.asm"
-%define ASM_A20 "src/a20.asm"
+%define ASM_SRC "src/"
+%strcat ASM_A20    ASM_SRC, "a20.asm"
+%strcat ASM_EDD    ASM_SRC, "edd.asm"
+%strcat ASM_GDT    ASM_SRC, "gdt.asm"
+%strcat ASM_UTILS  ASM_SRC, "utils.asm"

@@ -81,13 +81,13 @@ a20_fast: ; fast a20 gate
     or al, 2 ; set bit 1
     and al, 0xFE
     out 0x92, al
-.check
+.check:
     call check_a20
     cmp ax, 1
     jne a20_fail
 
 a20_success: ; a20 is enabled
-    mov si, a20_success_err_msg
+    mov si, a20_success_msg
     call display
 
     mov ax, 1
@@ -101,6 +101,9 @@ a20_fail: ; could not enable a20
     ret
 
 check_a20: ; check if a20 is enabled
+    push ds
+    push es
+
     xor ax, ax
     mov es, ax ; es = 0x0000
     not ax
@@ -119,7 +122,9 @@ check_a20: ; check if a20 is enabled
 
     mov ax, 1
 .done:
+    pop ds
+    pop es
     ret
 
 a20_fail_err_msg db "A20 ERR: FAILED", 0x0d, 0x0a, 0
-a20_success_err_msg db "A20 ENABLED", 0x0d, 0x0a, 0
+a20_success_msg db "A20 ENABLED", 0x0d, 0x0a, 0
