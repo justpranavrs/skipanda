@@ -118,7 +118,7 @@ chs_read: ; read sectors from chs
 read_success:
     mov si, read_success_msg
     call display_16
-    
+
     mov ax, 1
     ret
 read_fail:

@@ -2,7 +2,8 @@
  * @file     vga.h
  * @title    Video Graphics Array (VGA)
  * @desc     Functions and definitions for managing the VGA display. Handles
- *           printing, clearing, scrolling for colored text characters.
+ *           printing, clearing, scrolling, cursor handling for
+ *           colored text characters.
  * @author   Pranav R S
  * -----------------------------------------------------------------------------
  */
@@ -12,12 +13,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/* VGA */
-typedef struct {
-  uint32_t address; /* physical address of the video memory */
-  uint32_t rows;    /* number of rows in the display */
-  uint32_t cols;    /* number of columns in the display */
-} __attribute__((packed)) vga_config_t;
+#define VGA_ADDRESS ((uintptr_t)0xb8000)
+#define VGA_ROWS ((size_t)25)
+#define VGA_COLS ((size_t)80)
 
 /* Hardware text mode color constants */
 typedef enum {
@@ -43,17 +41,43 @@ typedef enum {
 typedef struct {
   size_t rows; /* number of rows */
   size_t cols; /* number of columns */
+
+  vga_color fg_color; /* foreground color */
   vga_color bg_color; /* background color */
+
   uint16_t *address;
   uint16_t cursor; /* current cursor position */
 } vga_display;
 
-/* Initializes the VGA with the provided physical address, rows and columns */
-void vga_initialize(vga_config_t *cfg);
+/* Clears the VGA display screen and resets the cursor */
+void vga_clear();
 
-/* Clears the VGA display screen, sets the background color and resets the
- * cursor */
-void vga_clear_screen(vga_color color);
+/* Details of the VGA display */
+vga_display vga_get();
+
+/* Initializes the VGA with the provided physical address, rows and columns */
+void vga_initialize();
+
+/* Moves the cursor to the next line */
+void vga_nextln();
+
+/* Prints the text on the screen */
+void vga_print(const char *text);
+
+/* Prints a character on the screen */
+void vga_printchar(const char c);
 
 /* Prints the text on the screen and moves the cursor to the next line */
-void vga_println(const char *text, vga_color color);
+void vga_println(const char *text);
+
+/* Scrolls the display with the given number of rows */
+void vga_scroll(uint8_t rows);
+
+/* Sets the foreground and background color for the display */
+void vga_set(vga_color fg, vga_color bg);
+
+/* Sets the cursor from the beginning of the screen */
+void vga_set_cursor(uint16_t crsr);
+
+/* Prints the text buffer on the screen upto the given length */
+void vga_write(const char *buf, size_t len);

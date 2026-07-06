@@ -7,7 +7,7 @@
 ; -----------------------------------------------------------------------------
 store_memory_map:
     mov di, MMAP_ADDR ; above BDA
-    
+
     xor ebx, ebx ; clear ebx
     mov edx, SMAP_SIGNATURE ; SMAP
 
@@ -21,10 +21,10 @@ initial_e820:
     jne memory_map_fail
 .e820:
     add di, LIST_ENTRY_SIZE
-    
+
     test ebx, ebx ; check if ebx is 0
     jz memory_map_success ; end of list
-    
+
     mov eax, 0xe820
     mov ecx, LIST_ENTRY_SIZE
     int 0x15
@@ -36,7 +36,7 @@ memory_map_success:
 
     mov ax, 1
     ret
-    
+
 memory_map_fail:
     mov si, memory_map_err_msg
     call display_16

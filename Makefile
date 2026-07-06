@@ -53,7 +53,7 @@ $(MAIN_OBJ):  $(MAIN_SRC) | $(BUILD_DIR)
 
 $(VGA_OBJ):  $(VGA_SRC) | $(BUILD_DIR)
 	$(CC) $(CCFLAGS) -c $(VGA_SRC) -o $(VGA_OBJ)
-	
+
 $(IMG_SRC): $(OBJS)
 	ld -m elf_i386 -T $(LINKER_SRC) -o $(IMG_SRC) $(OBJS)
 

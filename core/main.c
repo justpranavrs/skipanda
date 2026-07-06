@@ -6,8 +6,8 @@
  * -----------------------------------------------------------------------------
  */
 
-#include <stdint.h>
 #include "vga.h"
+#include <stdint.h>
 
 /* Memory Map */
 typedef struct {
@@ -18,18 +18,15 @@ typedef struct {
 /*
  * Main entry point for the Stage C bootloader.
  */
-void __attribute__((cdecl, noreturn)) boot_main(
-    mmap_config_t *mmap_cfg, 
-    vga_config_t  *vga_cfg,
-    uint32_t esp_address
-) {
-    
-    vga_initialize(vga_cfg);
-    vga_clear_screen(VGA_COLOR_LIGHT_BLUE);
+void __attribute__((cdecl, noreturn)) boot_main(mmap_config_t *mmap_cfg) {
 
-    char *c_bootloader_message = "(32-BIT PROTECTED MODE) STAGE C BOOTED...";
-    vga_println(c_bootloader_message, VGA_COLOR_WHITE);
-    
-    while (1) {
-    } /* boot_main never returns */
+  /* initialize the vga display */
+  vga_initialize();
+  vga_set(VGA_COLOR_WHITE, VGA_COLOR_LIGHT_BLUE);
+  vga_clear();
+
+  vga_println("(32-BIT PROTECTED MODE) STAGE C BOOTED...");
+
+  while (1) {
+  } /* boot_main never returns */
 }

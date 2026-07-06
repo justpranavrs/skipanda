@@ -83,7 +83,7 @@ a20_fast: ; fast a20 gate
     in al, 0x92
     test al, 2
     jnz .check
-    
+
     or al, 2 ; set bit 1
     and al, 0xFE
     out 0x92, al

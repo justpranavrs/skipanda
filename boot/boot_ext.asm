@@ -18,6 +18,11 @@ boot_ext_start:
     cmp ax, 0
     je halt_cpu ; memory map failed to load
 
+    mov ah, 0x01 ; disable cursor blinking
+    mov ch, 0x20
+    mov cl, 0x00
+    int 0x10
+
     cli ; disable hardware interrupts
     mov eax, cr0
     or al, 1 ; set PE
@@ -40,21 +45,14 @@ protected_mode:
     mov gs, eax
     mov ss, eax
     mov esp, ESP_ADDR ; extended stack pointer for 32-bit
-    
+
     cld ; clear direction flag
-    
-    push ESP_ADDR ; extended stack pointer address  
-    push vga_info ; vga display arguments
+
     push mmap_info ; memory map arguments
-    
     call boot_main ; call the stage c bootloader
 
 %include "boot/utils.asm"
 
-vga_info:
-    dd VIDEO_MEMORY
-    dd DISPLAY_ROWS
-    dd DISPLAY_COLS
 mmap_info:
     dd MMAP_ADDR
     dd LIST_ENTRY_SIZE
