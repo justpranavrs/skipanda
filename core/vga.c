@@ -8,6 +8,7 @@
  */
 
 #include "vga.h"
+#include "pmio.h"
 #include <stddef.h>
 #include <stdint.h>
 
@@ -19,7 +20,7 @@ void vga_clear() {
   for (size_t i = 0; i < vga.rows * vga.cols; i++) {
     vga.address[i] = clear_word;
   }
-  vga.cursor = 0;
+  vga_set_cursor(0);
 }
 
 /* Details of the VGA display */
@@ -31,12 +32,12 @@ void vga_initialize() {
   vga.rows = VGA_ROWS;
   vga.cols = VGA_COLS;
   vga.bg_color = VGA_COLOR_BLACK;
-  vga.cursor = 0; /* start of the screen */
+  vga_set_cursor(0); /* start of the screen */
 }
 
 /* Moves the cursor to the next line */
 void vga_nextln() {
-  vga.cursor = vga.cursor + vga.cols - (vga.cursor % vga.cols);
+  vga_set_cursor(vga.cursor + vga.cols - (vga.cursor % vga.cols));
 
   if (vga.cursor >= vga.rows * vga.cols) {
     vga_scroll(1);
@@ -54,7 +55,7 @@ void vga_print(const char *text) {
 void vga_printchar(const char c) {
   uint16_t *ptr = vga.address + vga.cursor;
   *ptr = (vga.bg_color << 12) | (vga.fg_color << 8) | c;
-  vga.cursor++;
+  vga_set_cursor(vga.cursor+1);
 
   if (vga.cursor >= vga.rows * vga.cols) {
     vga_scroll(1);
@@ -83,7 +84,7 @@ void vga_scroll(uint8_t rows) {
       curr++;
     }
   }
-  vga.cursor = prev - vga.address; /* set the new cursor */
+  vga_set_cursor(prev - vga.address); /* set the new cursor */
 
   uint16_t *display_end =
       vga.address + (vga.rows * vga.cols); /* end of screen */
@@ -100,7 +101,14 @@ void vga_set(vga_color fg, vga_color bg) {
 }
 
 /* Sets the cursor from the beginning of the screen */
-void vga_set_cursor(uint16_t crsr) { vga.cursor = crsr; }
+void vga_set_cursor(uint16_t position) { 
+    vga.cursor = position;
+    
+    outb(0x3D4, 0x0F);
+    outb(0x3D5, (uint8_t)(position & 0xFF));
+    outb(0x3D4, 0x0E);
+    outb(0x3D5, (uint8_t)((position >> 8) & 0xFF));
+}
 
 /* Prints the text buffer on the screen upto the given length */
 void vga_write(const char *buf, size_t len) {

@@ -22,10 +22,10 @@ void __attribute__((cdecl, noreturn)) boot_main(mmap_config_t *mmap_cfg) {
 
   /* initialize the vga display */
   vga_initialize();
-  vga_set(VGA_COLOR_WHITE, VGA_COLOR_LIGHT_BLUE);
-  vga_clear();
+  vga_set(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
 
-  vga_println("(32-BIT PROTECTED MODE) STAGE C BOOTED...");
+  vga_println("SKIPANDA Bootloader v1.0");
+  vga_nextln();
 
   while (1) {
   } /* boot_main never returns */

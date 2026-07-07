@@ -22,6 +22,8 @@ LINKER_SRC = linker.ld
 MAIN_SRC = $(C_DIR)/main.c
 VGA_SRC = $(C_DIR)/vga.c
 
+SRCS = $(BOOT_SRC) $(BOOT_EXT_SRC) $(MAIN_SRC) $(VGA_SRC)
+
 # Generated Artifacts
 BOOT_OBJ = $(BUILD_DIR)/boot.o
 BOOT_LIST = $(BUILD_DIR)/boot.lst
@@ -35,7 +37,7 @@ VGA_OBJ = $(BUILD_DIR)/vga.o
 OBJS = $(BOOT_OBJ) $(BOOT_EXT_OBJ) $(MAIN_OBJ) $(VGA_OBJ)
 IMG_SRC = $(BUILD_DIR)/skipanda.img
 
-.PHONY: all run clean $(BOOT_SRC) $(BOOT_EXT_SRC) $(MAIN_SRC)
+.PHONY: all run clean $(SRCS)
 
 all: $(IMG_SRC)
 

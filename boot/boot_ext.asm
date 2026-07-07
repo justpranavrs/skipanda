@@ -18,10 +18,9 @@ boot_ext_start:
     cmp ax, 0
     je halt_cpu ; memory map failed to load
 
-    mov ah, 0x01 ; disable cursor blinking
-    mov ch, 0x20
-    mov cl, 0x00
-    int 0x10
+    mov ah, 0x00 ; set video mode
+    mov al, 0x03
+    int 0x10 ; set vga color mode
 
     cli ; disable hardware interrupts
     mov eax, cr0
