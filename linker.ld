@@ -5,7 +5,7 @@
 * -----------------------------------------------------------------------------
 */
 OUTPUT_FORMAT(binary)
-ENTRY(_start)
+ENTRY(start)
 
 SECTIONS
 {
@@ -18,10 +18,7 @@ SECTIONS
         *boot.o(.rodata)
     }
     boot_end = .;
-    ASSERT((boot_end - boot_start) <= 510, "boot.asm exceeds 510 bytes")
-
-    . = boot_start + 510;
-    .sig : { SHORT(0xaa55) }
+    ASSERT((boot_end - boot_start) == 512, "boot.asm must be exactly 512 bytes")
 
     . = 0x7e00;
     .boot_ext :
