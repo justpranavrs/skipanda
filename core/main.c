@@ -6,6 +6,7 @@
  * -----------------------------------------------------------------------------
  */
 
+#include "keyboard.h"
 #include "vga.h"
 #include <stdint.h>
 
@@ -21,11 +22,14 @@ typedef struct {
 void __attribute__((cdecl, noreturn)) boot_main(mmap_config_t *mmap_cfg) {
 
   /* initialize the vga display */
-  vga_initialize();
-  vga_set(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+  vga_init();
 
-  vga_println("SKIPANDA Bootloader v1.0");
+  vga_println("SKIPANDA Bootloader v0.1.0");
   vga_nextln();
+
+  while(1) {
+      vga_printchar(kb_process());
+  }
 
   while (1) {
   } /* boot_main never returns */

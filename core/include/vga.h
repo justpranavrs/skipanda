@@ -17,6 +17,8 @@
 #define VGA_ROWS ((size_t)25)
 #define VGA_COLS ((size_t)80)
 
+#define VGA_CLEAR (uint8_t)(0x20)
+
 /* Hardware text mode color constants */
 typedef enum {
   VGA_COLOR_BLACK = 0,
@@ -50,22 +52,22 @@ typedef struct {
 } vga_display;
 
 /* Clears the VGA display screen and resets the cursor */
-void vga_clear();
+void vga_clear(void);
 
 /* Details of the VGA display */
-vga_display vga_get();
+vga_display vga_get(void);
 
-/* Initializes the VGA with the provided physical address, rows and columns */
-void vga_initialize();
+/* Initializes the VGA with the physical address, rows and columns */
+void vga_init(void);
 
 /* Moves the cursor to the next line */
-void vga_nextln();
+void vga_nextln(void);
 
 /* Prints the text on the screen */
 void vga_print(const char *text);
 
 /* Prints a character on the screen */
-void vga_printchar(const char c);
+void vga_printchar(const uint8_t c);
 
 /* Prints the text on the screen and moves the cursor to the next line */
 void vga_println(const char *text);
@@ -76,8 +78,8 @@ void vga_scroll(uint8_t rows);
 /* Sets the foreground and background color for the display */
 void vga_set(vga_color fg, vga_color bg);
 
-/* Sets the cursor from the beginning of the screen */
-void vga_set_cursor(uint16_t crsr);
+/* Sets the cursor using the position from the beginning of the screen */
+void vga_set_cursor(uint16_t position);
 
 /* Prints the text buffer on the screen upto the given length */
-void vga_write(const char *buf, size_t len);
+void vga_write(const uint8_t *buf, size_t len);

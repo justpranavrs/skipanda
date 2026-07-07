@@ -72,7 +72,6 @@ a20_keyboard: ; try enabling a20 with keyboard controller
 	test al, 2
 	jnz .wait_io1
 	ret
-
 .wait_io2: ; wait for output buffer
 	in al, 0x64
 	test al, 1

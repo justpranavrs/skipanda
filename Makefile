@@ -21,8 +21,9 @@ LINKER_SRC = linker.ld
 # C
 MAIN_SRC = $(C_DIR)/main.c
 VGA_SRC = $(C_DIR)/vga.c
+KEYBOARD_SRC = $(C_DIR)/keyboard.c
 
-SRCS = $(BOOT_SRC) $(BOOT_EXT_SRC) $(MAIN_SRC) $(VGA_SRC)
+SRCS = $(BOOT_SRC) $(BOOT_EXT_SRC) $(MAIN_SRC) $(VGA_SRC) $(KEYBOARD_SRC)
 
 # Generated Artifacts
 BOOT_OBJ = $(BUILD_DIR)/boot.o
@@ -33,8 +34,9 @@ BOOT_EXT_LIST = $(BUILD_DIR)/boot_ext.lst
 
 MAIN_OBJ = $(BUILD_DIR)/main.o
 VGA_OBJ = $(BUILD_DIR)/vga.o
+KEYBOARD_OBJ = $(BUILD_DIR)/keyboard.o
 
-OBJS = $(BOOT_OBJ) $(BOOT_EXT_OBJ) $(MAIN_OBJ) $(VGA_OBJ)
+OBJS = $(BOOT_OBJ) $(BOOT_EXT_OBJ) $(MAIN_OBJ) $(VGA_OBJ) $(KEYBOARD_OBJ)
 IMG_SRC = $(BUILD_DIR)/skipanda.img
 
 .PHONY: all run clean $(SRCS)
@@ -55,6 +57,9 @@ $(MAIN_OBJ):  $(MAIN_SRC) | $(BUILD_DIR)
 
 $(VGA_OBJ):  $(VGA_SRC) | $(BUILD_DIR)
 	$(CC) $(CCFLAGS) -c $(VGA_SRC) -o $(VGA_OBJ)
+
+$(KEYBOARD_OBJ):  $(KEYBOARD_SRC) | $(BUILD_DIR)
+	$(CC) $(CCFLAGS) -c $(KEYBOARD_SRC) -o $(KEYBOARD_OBJ)
 
 $(IMG_SRC): $(OBJS)
 	ld -m elf_i386 -T $(LINKER_SRC) -o $(IMG_SRC) $(OBJS)
